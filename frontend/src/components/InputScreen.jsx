@@ -5,13 +5,9 @@ const EU_COUNTRIES = [
   { code: "fr", label: "🇫🇷 France" },
   { code: "gb", label: "🇬🇧 United Kingdom" },
   { code: "nl", label: "🇳🇱 Netherlands" },
-  { code: "es", label: "🇪🇸 Spain" },
-  { code: "it", label: "🇮🇹 Italy" },
   { code: "at", label: "🇦🇹 Austria" },
   { code: "ch", label: "🇨🇭 Switzerland" },
-  { code: "be", label: "🇧🇪 Belgium" },
-  { code: "pl", label: "🇵🇱 Poland" },
-  { code: "se", label: "🇸🇪 Sweden" },
+ 
 ];
 
 const EXAMPLES = [
