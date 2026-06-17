@@ -17,7 +17,22 @@ const EXAMPLES = [
 ];
 
 const css = `
-  .input-screen { }
+  .input-screen {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .input-screen {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  /* ── Left column: hero + pipeline ── */
+  .hero-col {}
 
   .hero {
     margin-bottom: 2.5rem;
@@ -34,9 +49,9 @@ const css = `
 
   .hero-title {
     font-family: var(--font-head);
-    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-size: clamp(2rem, 3.5vw, 3rem);
     font-weight: 700;
-    line-height: 1.15;
+    line-height: 1.1;
     color: var(--ink);
     margin-bottom: 1rem;
     letter-spacing: -.02em;
@@ -50,8 +65,8 @@ const css = `
   .hero-desc {
     font-size: .95rem;
     color: var(--ink-mid);
-    max-width: 560px;
     line-height: 1.7;
+    max-width: 480px;
   }
 
   .pipeline-strip {
@@ -59,7 +74,7 @@ const css = `
     align-items: center;
     gap: .5rem;
     flex-wrap: wrap;
-    margin: 1.5rem 0 2.5rem;
+    margin-top: 2rem;
   }
 
   .pipeline-chip {
@@ -80,12 +95,17 @@ const css = `
     flex-shrink: 0;
   }
 
+  /* ── Right column: form ── */
+  .form-col {}
+
   .form-card {
     background: var(--surface);
     border: 1px solid var(--surface-3);
     border-radius: var(--radius-lg);
     padding: 2rem;
     box-shadow: var(--shadow);
+    position: sticky;
+    top: 72px;
   }
 
   .form-label {
@@ -99,7 +119,7 @@ const css = `
 
   .form-textarea {
     width: 100%;
-    min-height: 160px;
+    min-height: 200px;
     padding: .85rem 1rem;
     font-family: var(--font-body);
     font-size: .9rem;
@@ -232,82 +252,90 @@ export default function InputScreen({ onSubmit }) {
     <>
       <style>{css}</style>
       <div className="input-screen">
-        <div className="hero">
-          <p className="hero-eyebrow">European AI Career Intelligence System</p>
-          <h1 className="hero-title">
-            Find your AI career<br />
-            <em>archetype</em> in Europe
-          </h1>
-          <p className="hero-desc">
-            Paste your skills or resume summary. EACIS uses DistilBERT semantic search
-            across 1,088 European AI job postings to match you to one of five
-            data-driven archetypes and surface live openings.
-          </p>
-        </div>
 
-        <div className="pipeline-strip">
-          <span className="pipeline-chip">Skill Extraction</span>
-          <span className="pipeline-arrow">→</span>
-          <span className="pipeline-chip">Archetype Matching</span>
-          <span className="pipeline-arrow">→</span>
-          <span className="pipeline-chip">FAISS Semantic Search</span>
-          <span className="pipeline-arrow">→</span>
-          <span className="pipeline-chip">Live Jobs via Adzuna</span>
-          <span className="pipeline-arrow">→</span>
-          <span className="pipeline-chip">Career Report</span>
-        </div>
-
-        <div className="form-card">
-          <label className="form-label">Your skills or resume summary</label>
-          <textarea
-            className="form-textarea"
-            value={text}
-            onChange={e => setText(e.target.value)}
-            placeholder="e.g. Python developer with experience in PyTorch, transformer models, and NLP. Familiar with HuggingFace, Docker, and deploying models to GCP…"
-          />
-
-          <div className="examples-row">
-            {EXAMPLES.map((ex, i) => (
-              <button
-                key={i}
-                className="example-chip"
-                title={ex}
-                onClick={() => setText(ex)}
-              >
-                Example {i + 1}
-              </button>
-            ))}
+        {/* ── Left column ── */}
+        <div className="hero-col">
+          <div className="hero">
+            <p className="hero-eyebrow">European AI Career Intelligence System</p>
+            <h1 className="hero-title">
+              Find your AI career<br />
+              <em>archetype</em> in Europe
+            </h1>
+            <p className="hero-desc">
+              Paste your skills or resume summary. EACIS uses DistilBERT semantic search
+              across 1,088 European AI job postings to match you to one of five
+              data-driven archetypes and surface live openings.
+            </p>
           </div>
 
-          <div className="form-row">
-            <div className="form-select-wrap">
-              <label className="form-label" style={{ marginBottom: ".4rem" }}>Target country</label>
-              <select
-                className="form-select"
-                value={country}
-                onChange={e => setCountry(e.target.value)}
-              >
-                {EU_COUNTRIES.map(c => (
-                  <option key={c.code} value={c.code}>{c.label}</option>
-                ))}
-              </select>
+          <div className="pipeline-strip">
+            <span className="pipeline-chip">Skill Extraction</span>
+            <span className="pipeline-arrow">→</span>
+            <span className="pipeline-chip">Archetype Matching</span>
+            <span className="pipeline-arrow">→</span>
+            <span className="pipeline-chip">FAISS Semantic Search</span>
+            <span className="pipeline-arrow">→</span>
+            <span className="pipeline-chip">Live Jobs via Adzuna</span>
+            <span className="pipeline-arrow">→</span>
+            <span className="pipeline-chip">Career Report</span>
+          </div>
+        </div>
+
+        {/* ── Right column ── */}
+        <div className="form-col">
+          <div className="form-card">
+            <label className="form-label">Your skills or resume summary</label>
+            <textarea
+              className="form-textarea"
+              value={text}
+              onChange={e => setText(e.target.value)}
+              placeholder="e.g. Python developer with experience in PyTorch, transformer models, and NLP. Familiar with HuggingFace, Docker, and deploying models to GCP…"
+            />
+
+            <div className="examples-row">
+              {EXAMPLES.map((ex, i) => (
+                <button
+                  key={i}
+                  className="example-chip"
+                  title={ex}
+                  onClick={() => setText(ex)}
+                >
+                  Example {i + 1}
+                </button>
+              ))}
             </div>
-            <button
-              className="btn-primary"
-              onClick={handleSubmit}
-              disabled={!text.trim()}
-            >
-              Analyse Profile →
-            </button>
-          </div>
 
-          <p className="form-hint">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm.75 10.5h-1.5v-5h1.5v5zm0-6.5h-1.5V3.5h1.5V5z"/>
-            </svg>
-            Analysis runs a ReAct agent with 6 steps including DistilBERT embedding — first load may take ~30 seconds.
-          </p>
+            <div className="form-row">
+              <div className="form-select-wrap">
+                <label className="form-label" style={{ marginBottom: ".4rem" }}>Target country</label>
+                <select
+                  className="form-select"
+                  value={country}
+                  onChange={e => setCountry(e.target.value)}
+                >
+                  {EU_COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code}>{c.label}</option>
+                  ))}
+                </select>
+              </div>
+              <button
+                className="btn-primary"
+                onClick={handleSubmit}
+                disabled={!text.trim()}
+              >
+                Analyse Profile →
+              </button>
+            </div>
+
+            <p className="form-hint">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm.75 10.5h-1.5v-5h1.5v5zm0-6.5h-1.5V3.5h1.5V5z"/>
+              </svg>
+              Analysis runs a ReAct agent with 6 steps including DistilBERT embedding — first load may take ~30 seconds.
+            </p>
+          </div>
         </div>
+
       </div>
     </>
   );

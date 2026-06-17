@@ -49,7 +49,7 @@ const css = `
     background: rgba(255,255,255,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--surface-3);
-    padding: 0 2rem;
+    padding: 0 2.5rem;
     height: 56px;
     display: flex; align-items: center; justify-content: space-between;
   }
@@ -92,10 +92,10 @@ const css = `
   /* ── Page wrapper ── */
   .page {
     flex: 1;
-    max-width: 720px;
+    max-width: 1280px;
     width: 100%;
     margin: 0 auto;
-    padding: 3rem 1.5rem 5rem;
+    padding: 3rem 2.5rem 5rem;
   }
 
   /* ── Error box ── */
